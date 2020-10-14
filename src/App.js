@@ -38,6 +38,19 @@ class App extends React.Component {
              this.setState({api: newArr})
          })
     }
+    deletePoemHandler = poemId => {
+        const options = {
+            method: "DELETE"
+        }
+        fetch(`http://localhost:3000/poems/${poemId}`, options)
+        .then(resp => resp.json())
+        .then(() => {
+            const newArr = [...this.state.api]
+            const filtered = newArr.filter(poem => poem.id !== poemId)
+            this.setState({api: filtered})
+        })
+       //send delete request
+    }
   render() {
       console.log(this.state.showForm)
     return (
@@ -47,7 +60,7 @@ class App extends React.Component {
           {this.state.showForm? <NewPoemForm submitHandler={this.newPoemSubmitHandler}/> : null}
           {/* {false && <NewPoemForm />} */}
         </div>
-        <PoemsContainer poems={this.state.api}/>
+        <PoemsContainer deleteHandler={this.deletePoemHandler}poems={this.state.api}/>
       </div>
     );
   }
