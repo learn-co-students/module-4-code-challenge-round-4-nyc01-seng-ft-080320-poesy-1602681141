@@ -1,7 +1,8 @@
 import React from "react";
 import "./App.css";
-import PoemsContainer from "./PoemsContainer";
-import NewPoemForm from "./NewPoemForm";
+import PoemsContainer from "./Containers/PoemsContainer";
+import NewPoemForm from "./Components/NewPoemForm";
+import FavoriteContainer from "./Containers/FavoriteContainer"
 
 const API = 'http://localhost:6001/poems/'
 
@@ -9,7 +10,8 @@ class App extends React.Component {
 
   state = {
     poems: [],
-    showForm: false
+    showForm: false,
+    favoritePoems: []
   }
 
   componentDidMount = () => {
@@ -71,6 +73,23 @@ class App extends React.Component {
     })
   }
 
+  favoriteHandler = (poemObj) => {
+    if(this.state.favoritePoems.includes(poemObj)){
+      let poemArray = [...this.state.favoritePoems]
+      let index = poemArray.indexOf(poemObj)
+        poemArray.splice(index, 1)
+        this.setState({
+          favoritePoems: poemArray
+        })
+    }
+    else{
+      let newFavPoems = [poemObj,...this.state.favoritePoems]
+    this.setState({
+      favoritePoems: newFavPoems
+    })
+
+  }}
+
   render() {
     return (
       <div className="app">
@@ -78,7 +97,8 @@ class App extends React.Component {
           <button onClick={this.renderForm}>Show/hide new poem form</button>
           {this.state.showForm ? <NewPoemForm handleSubmit={this.handleSubmit}/> : null}
         </div>
-        <PoemsContainer poems={this.state.poems} handleDelete={this.handleDelete}/>
+        <PoemsContainer poems={this.state.poems} favoriteHandler={this.favoriteHandler} handleDelete={this.handleDelete}/>
+        < FavoriteContainer favPoems={this.state.favoritePoems}/>
       </div>
     );
   }
