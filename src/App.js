@@ -47,6 +47,44 @@ class App extends React.Component {
 
   //Core Deliverable 4 - is in Poem component since the status read or unread doesn't have to persist...
 
+  //Advanced Deliverable 1
+  makeFavorite = poemId => {
+    let poemIdx = this.state.poems.findIndex(poem => poem.id === poemId);
+    let updatedPoems = [...this.state.poems];
+    updatedPoems[poemIdx].favorite = true;
+    this.setState({
+      poems: updatedPoems,
+    });
+  }
+
+  removeFavorite = poemId => {
+    let poemIdx = this.state.poems.findIndex(poem => poem.id === poemId);
+    let updatedPoems = [...this.state.poems];
+    updatedPoems[poemIdx].favorite = false;
+    this.setState({
+      poems: updatedPoems,
+    });
+  }
+
+  //Advanced Deliverable 2
+  deletePoem = poemId => {
+    let options = {
+      method: 'DELETE'
+    }
+    console.log("attempting delete of poemID:",poemId);
+    fetch('http://localhost:6001/poems/'+poemId, options)
+    .then(resp => resp.json())
+    .then(json => {
+      let poemIdx = this.state.poems.findIndex(poem => poem.id === poemId);
+      let updatedPoems = [...this.state.poems];
+      updatedPoems.splice(poemIdx,1);
+      console.log(updatedPoems);
+      this.setState({
+        poems: updatedPoems,
+      })
+    })
+    console.log("after deleting this is my state", this.state.poems);
+  }
 
   render() {
     return (
@@ -55,7 +93,17 @@ class App extends React.Component {
           <button onClick={this.toggleShowForm}>Show/hide new poem form</button>
           {this.state.showForm && <NewPoemForm createPoem={this.createNewPoem}/>}
         </div>
-        <PoemsContainer toRenderPoems={this.state.poems}/>
+        <div>
+          <h1>Poems Index</h1>
+          <PoemsContainer toRenderPoems={this.state.poems.filter(p => !p.favorite)} deletePoem={this.deletePoem} alterFavorite={this.makeFavorite}/>
+        </div>
+        <div style={{borderLeft: "6px solid #000"}}>
+
+        </div>
+        <div>
+          <h1>Favorites</h1>
+          <PoemsContainer toRenderPoems={this.state.poems.filter(p => p.favorite)} alterFavorite={this.removeFavorite}/>
+        </div>
       </div>
     );
   }
