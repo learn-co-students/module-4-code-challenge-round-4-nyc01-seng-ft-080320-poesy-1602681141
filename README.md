@@ -18,6 +18,8 @@ Your job will be to make our app work according to the user stories you will fin
 2. Run `npm start`. This will open both your React page on port 6002 and your backend on port 6001.
 
 ## Endpoints
+'npm install -g json-server' 
+json-server --watch db.json --routes routes.js
 
 The base URL for your backend is: http://localhost:6001
 
