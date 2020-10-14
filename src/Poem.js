@@ -6,20 +6,28 @@ class Poem extends React.Component {
     if(this.props.read===false){
       return "Mark as Read"
     } else {
-      return "Mark Unread"
+      return "Mark As Unread"
     }
   }
   
-  getInfo=()=>{
-    this.props.clickHandler(this.props.id)
+  getInfo=(e)=>{
+    this.props.clickHandler(this.props.id, e.target.name)
 
+  }
+
+  favoriteReading = () =>{
+    if(this.props.favorite===false){
+      return "Favorite It!"
+    } else {
+      return "On Your List!"
+    }
   }
 
 
   render() {
  const {author, content, id, read, title} = this.props
-let buttonReading = this.buttonReading()
-
+let readReading = this.buttonReading()
+let favoriteReading = this.favoriteReading()
 
     return (
       <div>
@@ -29,7 +37,8 @@ let buttonReading = this.buttonReading()
           <strong>By: {author}</strong>
         </p>
         {/* {read? <button>Mark Unread</button>:  <button>Mark as Read</button> } */}
-        <button onClick={this.getInfo}>{buttonReading}</button> 
+        <button name="read_button" onClick={this.getInfo}>{readReading}</button> 
+        <button name="favorite_button" onClick={this.getInfo}>{favoriteReading}</button>
       </div>
     );
   }

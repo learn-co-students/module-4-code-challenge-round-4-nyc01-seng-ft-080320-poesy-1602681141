@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import PoemsContainer from "./PoemsContainer";
 import NewPoemForm from "./NewPoemForm";
+import FavoritesContainer from "./FavoritesContainer"
 
 class App extends React.Component {
 
@@ -18,12 +19,19 @@ class App extends React.Component {
     .then(data=>this.addToProps(data))
   }
 
-  clickHandler =(objId) =>{
+  clickHandler =(objId, targetName) =>{
   console.log('in click Handler')
-   let poem= this.state.poems.find(obj=> obj.id===objId)
-   poem.read = true
-   this.setState({...this.state.poems, poem})
+  let poem= this.state.poems.find(obj=> obj.id===objId)
+    console.log(targetName)
 
+        if(targetName = "read_button"){
+          poem.read = !poem.read
+          this.setState({...this.state.poems, poem})
+        } if(targetName = "read_button"){
+          console.log('favorite')
+          poem.favorite = !poem.favorite
+          this.setState({...this.state.poems, poem})
+        }
   }
 
   openForm=()=>{
@@ -36,7 +44,7 @@ class App extends React.Component {
 
 
  addToProps = (data) =>{
-   let poems = data.map(poem =>{return{...poem, read:false}})
+   let poems = data.map(poem =>{return{...poem, read:false, favorite:false}})
    this.setState({poems:poems})
  }
 
@@ -70,8 +78,14 @@ class App extends React.Component {
     this.setState({poems:newArray})
  }
 
+ createFavorites = () =>{
+  return this.state.poems.filter(poem => poem.favorite===true)
+ }
+
   render() {
-    console.log(this.state.poems)
+    let favoriteArray = this.createFavorites()
+    console.log(favoriteArray.length)
+
     return (
       <div className="app">
         <div className="sidebar">
@@ -79,6 +93,7 @@ class App extends React.Component {
           {this.state.formOpen? <NewPoemForm postIt={this.postIt}/> : null}
         </div>
         <PoemsContainer poems={this.state.poems} clickHandler={this.clickHandler}/>
+        {favoriteArray.length>0? <FavoritesContainer poems={favoriteArray}/>:null}
       </div>
     );
   }
