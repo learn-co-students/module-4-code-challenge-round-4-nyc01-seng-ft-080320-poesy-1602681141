@@ -18,8 +18,28 @@ class App extends React.Component {
   }
   
   clickHandler = () => {
-    console.log("clicking")
+    // console.log("clicking")
     this.setState((prevState) => ({ clicked: !prevState.clicked }))
+  }
+
+  submitHandler = (poemObj) => {
+    // console.log("Submit Working", )
+    
+    let options = {
+                method: 'POST',
+                headers: {
+                    "content-type": "application/json",
+                    "accept": "application/json"
+                },
+                body: JSON.stringify(poemObj)
+            }
+    
+            fetch("http://localhost:6001/poems", options)
+            .then(response => response.json())
+            .then(newPoem => {
+              let newArray = [...this.state.api, newPoem]
+              this.setState({ api: newArray })
+            })
   }
 
   render() {
@@ -27,7 +47,7 @@ class App extends React.Component {
       <div className="app">
         <div className="sidebar">
           <button onClick={this.clickHandler}>Show/hide new poem form</button>
-          {this.state.clicked ? <NewPoemForm /> : null }
+          {this.state.clicked ? <NewPoemForm submitHandler={this.submitHandler}/> : null }
         </div>
         <PoemsContainer poems={this.state.api} />
       </div>

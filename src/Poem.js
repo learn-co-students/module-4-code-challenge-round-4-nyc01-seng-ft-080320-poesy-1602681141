@@ -1,6 +1,17 @@
 import React from "react";
  
 class Poem extends React.Component {
+  
+  state= {
+    read: false
+  }
+  
+
+  readHandler = (e) => {
+    console.log(e.target)
+    this.setState((prevState) => ({ read: !prevState.read }))
+  }
+  
   render() {
     return (
       <div>
@@ -9,7 +20,9 @@ class Poem extends React.Component {
         <p>
           <strong>- {this.props.poem.author}</strong>
         </p>
-        <button>Mark as read</button>
+        <span onClick={this.readHandler} >
+        {this.state.read ? <button>Already Read</button> : <button>Mark as read</button>} 
+        </span>
       </div>
     );
   }
