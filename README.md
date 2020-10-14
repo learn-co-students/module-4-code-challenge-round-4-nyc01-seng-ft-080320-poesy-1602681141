@@ -1,4 +1,4 @@
-# Module 4 Code Challenge: Poesy
+# Module 4 Code Challenge: Poesy - Jhonny Chamoun
 
 ## Demo
 
