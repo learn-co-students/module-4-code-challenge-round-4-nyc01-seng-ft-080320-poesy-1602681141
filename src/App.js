@@ -34,7 +34,10 @@ class App extends React.Component {
     .then(resp => resp.json())
     .then(newPoem => {
       let newArray = [...this.state.poems, newPoem]
-      this.setState({ poems: newArray})
+      this.setState({ 
+        poems: newArray,
+        showForm: false,
+      })
     })
     .catch(console.log)
   }
