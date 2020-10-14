@@ -12,7 +12,7 @@ class App extends React.Component {
 	};
 
 	componentDidMount = () => {
-        fetch('http://localhost:3000/poems')
+        fetch('http://localhost:6001/poems')
         .then((resp) => resp.json())
         .then((poems) => {
 			this.setState({ api: poems });
@@ -32,7 +32,7 @@ class App extends React.Component {
 			},
 			body: JSON.stringify(poemObj)
 		};
-        fetch('http://localhost:3000/poems', options)
+        fetch('http://localhost:6001/poems', options)
         .then((resp) => resp.json())
         .then((newPoem) => {
 			const newArr = [ ...this.state.api, newPoem ];
@@ -43,7 +43,7 @@ class App extends React.Component {
 		const options = {
 			method: 'DELETE'
 		};
-        fetch(`http://localhost:3000/poems/${poemId}`, options)
+        fetch(`http://localhost:6001/poems/${poemId}`, options)
         .then((resp) => resp.json())
         .then(() => {
             //must remove poem from favorites list also if deleting from DB
