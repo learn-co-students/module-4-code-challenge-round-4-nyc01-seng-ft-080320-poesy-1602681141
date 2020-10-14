@@ -4,7 +4,7 @@ class Poem extends React.Component {
   
   state = {
     buttonText : "Mark as read",
-    favorite: clicked 
+    // favorite: clicked 
   }
   
   clickHandler = () => {
@@ -12,9 +12,9 @@ class Poem extends React.Component {
     this.setState({buttonText : buttonText})
   }
 
-  faveClick = (e) => {
-    this.props.faveClick(this.state.favorite)
-  }
+  // faveClick = (e) => {
+  //   this.props.faveClick(this.state.favorite)
+  // }
 
   render() {
     return (
@@ -25,7 +25,7 @@ class Poem extends React.Component {
           <strong>- By {this.props.poem.author}</strong>
         </p>
         <button onClick={this.clickHandler}>{this.state.buttonText}</button>
-        <button onClick={this.faveClick}>Favorite</button>
+        {/* <button onClick={this.faveClick}>Favorite</button> */}
       </div>
     );
   }

@@ -2,14 +2,14 @@ import React from "react";
 import "./App.css";
 import PoemsContainer from "./PoemsContainer";
 import NewPoemForm from "./NewPoemForm";
-import Favorites from "./Favorites"
+// import Favorites from "./Favorites"
 
 class App extends React.Component {
   
   state = {
     api : [],
     clicked : true,
-    favorites: []
+    // favorites: []
   }
   componentDidMount() {
     fetch("http://localhost:6001/poems")
@@ -39,13 +39,14 @@ class App extends React.Component {
       })
   }
 
-  faveClick = (poemId) => {
-    let poems = [...this.state.api]
-    let favePoem = poems.find(el => el.id === poemId)
-    let faveArr = [...this.state.favorite, favePoem]
-    this.setState({favorite : faveArr})
+  // faveClick = (poemId) => {
+  //   let poems = [...this.state.api]
+  //   let favePoem = poems.find(el => el.id === poemId)
+  //   let faveArr = [...this.state.favorite, favePoem]
+  //   this.setState({favorite : faveArr})
 
-  }
+  // }
+
   
   render() {
     return (
@@ -53,7 +54,7 @@ class App extends React.Component {
         <div className="sidebar">
           <button onClick={this.formShow}>Show/hide new poem form</button>
           {this.state.clicked? <NewPoemForm submitHandler={this.submitHandler}/> : null}
-          <Favorites favorites={this.state.favorites}/>
+          {/* <Favorites favorites={this.state.favorites}/> */}
         </div>
         <PoemsContainer poems={this.state.api} faveClick={this.faveClick} />
       </div>
