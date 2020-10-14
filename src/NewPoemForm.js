@@ -1,14 +1,24 @@
 import React from "react";
 
 class NewPoemForm extends React.Component {
-  state = {
-    showing: false
-  }
+  // state = {
+  //   hidden: true 
+  // }
 
+  // toggleHidden() {
+  //   this.setState({
+  //     hidden: !this.state.hidden
+  //   })
+  // }
+
+  submitHandler = event => {
+    event.preventDefault()
+    console.log(event)
+  }
 
   render() {
     return (
-      <form className="new-poem-form">
+      <form className="new-poem-form" onSubmit={this.submitHandler}>
         <input placeholder="Title" />
         <input placeholder="Author" />
         <textarea placeholder="Write your masterpiece here..." rows={10} />

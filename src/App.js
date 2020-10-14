@@ -6,11 +6,13 @@ import NewPoemForm from "./NewPoemForm";
 
 class App extends React.Component {
 
-  state = {
-    isHidden: true 
+  constructor () {
+    super()
+    this.state = {
+      isHidden: true
+    }
   }
-  
-  toggleHidden() {
+  toggleHidden () {
     this.setState({
       isHidden: !this.state.isHidden
     })
@@ -21,7 +23,7 @@ class App extends React.Component {
     return (
       <div className="app">
         <div className="sidebar">
-          <button onClick={this.toggleHidden}>
+          <button onClick={this.toggleHidden.bind(this)}>
             Show/hide new poem form
             </button>
           {!this.state.isHidden && <NewPoemForm />}
