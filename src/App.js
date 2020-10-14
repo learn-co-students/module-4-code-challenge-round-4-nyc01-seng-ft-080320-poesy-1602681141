@@ -50,7 +50,17 @@ class App extends React.Component {
         }
       })
     })
+  }
 
+  deletePoem = (poem) => {
+    fetch(this.state.poemsURL+poem.id, {method: "DELETE"})
+    .then(resp => resp.json())
+    .then(deletedPoem => {
+      let newPoems = [...this.state.poems]
+      let oldPoemIndex = newPoems.findIndex(p => p.id === poem.id)
+      newPoems.splice(oldPoemIndex, 1)
+      this.setState({poems: newPoems})
+    })
   }
 
 
@@ -61,7 +71,7 @@ class App extends React.Component {
           <button onClick={this.toggleForm}>Show/hide new poem form</button>
           {this.state.formStatus && <NewPoemForm addPoem={this.addPoem}/>}
         </div>
-        <PoemsContainer poems={this.state.poems}/>
+        <PoemsContainer poems={this.state.poems} deletePoem={this.deletePoem}/>
       </div>
     );
   }

@@ -18,6 +18,10 @@ class Poem extends React.Component {
         return this.state.read ? "Mark as Unread" : "Mark as Read"
     }
 
+    deleteMe = () => {
+        this.props.deletePoem(this.props.poem)
+    }
+
     render() {
         return (
             <div>
@@ -25,6 +29,7 @@ class Poem extends React.Component {
                 {this.props.poem.content}
                 <h4>By - {this.props.poem.author}</h4>
                 <button onClick={this.readPoem}>{this.buttonText()}</button>
+                <button onClick={this.deleteMe}>Delete</button>
             </div>
         )
     }

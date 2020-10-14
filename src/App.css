@@ -34,6 +34,7 @@ body {
 
 .poems-container > div > button {
   min-width: 4em;
+  margin-right: 0.5em;
 }
 
 form.new-poem-form {
