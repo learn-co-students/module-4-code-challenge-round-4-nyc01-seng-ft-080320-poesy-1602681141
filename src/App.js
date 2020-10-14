@@ -31,13 +31,35 @@ class App extends React.Component {
     })
   }
 
+  addPoem = (newPoem) => {
+    let options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json"
+      },
+      body: JSON.stringify(newPoem)
+    }
+
+    fetch(this.state.poemsURL, options)
+    .then(resp => resp.json())
+    .then(poem => {
+      this.setState(prevState => {
+        return {
+          poems: [...prevState.poems, poem]
+        }
+      })
+    })
+
+  }
+
 
   render() {
     return (
       <div className="app">
         <div className="sidebar">
           <button onClick={this.toggleForm}>Show/hide new poem form</button>
-          {this.state.formStatus && <NewPoemForm />}
+          {this.state.formStatus && <NewPoemForm addPoem={this.addPoem}/>}
         </div>
         <PoemsContainer poems={this.state.poems}/>
       </div>
