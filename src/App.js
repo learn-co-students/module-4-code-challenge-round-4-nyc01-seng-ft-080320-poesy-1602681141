@@ -21,13 +21,31 @@ class App extends React.Component {
     this.setState({ showForm: !this.state.showForm})
   }
 
+  newPoemSubmitHandler = (poemObj) => {
+    console.log("submitting")
+    fetch('http://localhost:6001/poems', {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "accepts": "application/json"
+      },
+      body: JSON.stringify(poemObj)
+    })
+    .then(resp => resp.json())
+    .then(newPoem => {
+      let newArray = [...this.state.poems, newPoem]
+      this.setState({ poems: newArray})
+    })
+    .catch(console.log)
+  }
+
   render() {
     console.log(this.state.showForm)
     return (
       <div className="app">
         <div className="sidebar">
           <button onClick={this.toggleShowForm}>Show/hide new poem form</button>
-          {this.state.showForm ? <NewPoemForm /> : null}
+          {this.state.showForm ? <NewPoemForm submitHandler={this.newPoemSubmitHandler} /> : null}
         </div>
         <PoemsContainer poems={this.state.poems} />
       </div>
