@@ -45,6 +45,7 @@ class App extends React.Component {
     fetch(BASE_API, configObj)
     .then(resp => resp.json())
     .then(console.log)
+    e.target.reset()
   }
   render() {
     return (
