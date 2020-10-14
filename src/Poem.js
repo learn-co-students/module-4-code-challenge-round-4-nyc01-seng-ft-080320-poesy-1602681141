@@ -37,7 +37,7 @@ class Poem extends React.Component {
           <strong>- {this.props.poemObj.author}</strong>
         </p>
         {readButton}
-        <button onClick={this.deleteHandler}>Delete (not persisting yet)</button>
+        <button onClick={this.deleteHandler}>Delete (persists, doesn't re render yet)</button>
       </div>
     );
   }
