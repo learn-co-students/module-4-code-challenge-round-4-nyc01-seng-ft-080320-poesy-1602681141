@@ -2,11 +2,14 @@ import React from "react";
 import "./App.css";
 import PoemsContainer from "./PoemsContainer";
 import NewPoemForm from "./NewPoemForm";
+import FavoritesContainer from './FavoritesContainer';
 
 class App extends React.Component {
   state = {
     showForm: false,
-    poems: []
+    poems: [],
+    favorites: [] // not making this persist because presumably favorites are unique to each user
+                  // and users aren't part of our domain model right now
   }
 
   // lifted this to App because two children of App need access to the poems array:
@@ -20,6 +23,17 @@ class App extends React.Component {
 
   handleClick = () => {
     this.setState(prevState => ({showForm: !prevState.showForm}))
+  }
+
+  toggleFavorite = poem => {
+    if (!this.state.favorites.find(favorite => { return favorite === poem })) {
+      this.setState(prevState => ({
+        favorites: [...prevState.favorites, poem]
+      }))
+    } else {
+      const newFavorites = this.state.favorites.filter(favorite => { return favorite !== poem })
+      this.setState({favorites: newFavorites})
+    }
   }
 
   appHandleSubmit = formData => {
@@ -43,10 +57,11 @@ class App extends React.Component {
     return (
       <div className="app">
         <div className="sidebar">
-          <button onClick={this.handleClick}>Show/hide new poem form</button>
+          <button name="showForm" onClick={this.handleClick}>Show/hide new poem form</button>
           {this.state.showForm && <NewPoemForm appHandleSubmit={this.appHandleSubmit} />}
         </div>
-        <PoemsContainer poems={this.state.poems} />
+        <PoemsContainer poems={this.state.poems} toggleFavorite={this.toggleFavorite} />
+        <FavoritesContainer favorites={this.state.favorites} />
       </div>
     );
   }

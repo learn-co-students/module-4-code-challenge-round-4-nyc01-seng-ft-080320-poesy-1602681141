@@ -23,7 +23,10 @@ body {
 
 .poems-container {
   max-width: 30em;
-  margin: auto;
+  /* changed to only set horizontal margins to auto, otherwise favorites container
+     was centered vertically */
+  margin-right: auto; 
+  margin-left: auto;
 }
 
 .poems-container > div {
