@@ -3,6 +3,10 @@ import React from "react";
 class Poem extends React.Component {
   render() {
     // console.log(this)
+    clickHandler = () => {
+
+    }
+
     return (
       <div>
         <h3>{this.props.poem.title}</h3>
@@ -10,7 +14,7 @@ class Poem extends React.Component {
         <p>
           <strong>- By {this.props.poem.author}</strong>
         </p>
-        <button>Mark as read</button>
+        <button onClick={this.clickHandler}>Mark as read</button>
       </div>
     );
   }
