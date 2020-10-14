@@ -1,15 +1,23 @@
 import React from "react";
 
 class Poem extends React.Component {
+    state ={
+        read: false
+    }
+
+    clickHandler = () => {
+        this.setState(prevState => ({read: !prevState.read}))
+    }
   render() {
+      console.log(this.state)
     return (
       <div>
-        <h3>Title</h3>
-        <p>Content</p>
+        <h3>{this.props.poem.title}</h3>
+        <p>{this.props.poem.content}</p>
         <p>
-          <strong>- By Author</strong>
+          <strong>- By {this.props.poem.author}</strong>
         </p>
-        <button>Mark as read</button>
+        <button onClick={this.clickHandler}>{this.state.read? "Mark as unread" : "Mark as read"}</button>
       </div>
     );
   }
