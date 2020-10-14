@@ -1,6 +1,11 @@
 import React from "react";
 
 class NewPoemForm extends React.Component {
+  state = {
+    showing: false
+  }
+
+
   render() {
     return (
       <form className="new-poem-form">
