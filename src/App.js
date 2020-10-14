@@ -45,10 +45,6 @@ class App extends React.Component {
     this.setState({ favorites: [...this.state.favorites, poem]})
   }
 
-  removeFavorite = (poem) => {
-    let newArray = this.state.favorites.filter(favorited => favorited.id !== poem.id )
-  }
-
   deletePoem = (poem) => {
     fetch(URL + poem.id, {
       method: "DELETE",
@@ -67,7 +63,7 @@ class App extends React.Component {
           <button onClick={() => {this.showForm()}}>Show/hide new poem form</button>
           {this.state.formClicked ? <NewPoemForm addPoem={this.addPoem} /> : null}
           <h2>Favorites</h2>
-          <FavoritesContainer favorites={this.state.favorites} removeFavorite/>
+          <FavoritesContainer favorites={this.state.favorites}/>
         </div>
         <PoemsContainer poems={this.state.poems} addToFavorites={this.addToFavorites} deletePoem={this.deletePoem}/>
       </div>
