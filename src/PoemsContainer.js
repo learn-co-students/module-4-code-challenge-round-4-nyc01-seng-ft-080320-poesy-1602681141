@@ -10,7 +10,7 @@ class PoemsContainer extends React.Component {
 
 
   createPoemCards = () => {
-    return this.props.poemsApi.map(poemObj => <Poem key={poemObj.id} poemObj={poemObj} />)
+    return this.props.poemsApi.map(poemObj => <Poem key={poemObj.id} poemObj={poemObj} deleteFromApi={this.props.deleteFromApi}/>)
   }
 
 

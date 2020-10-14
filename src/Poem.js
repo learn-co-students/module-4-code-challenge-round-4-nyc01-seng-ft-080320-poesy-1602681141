@@ -16,7 +16,7 @@ class Poem extends React.Component {
   }
 
   deleteHandler = () => {
-    this.props.deleteFromApi(this.poemObj)
+    this.props.deleteFromApi(this.props.poemObj)
   }
 
 
@@ -37,7 +37,7 @@ class Poem extends React.Component {
           <strong>- {this.props.poemObj.author}</strong>
         </p>
         {readButton}
-        <button onClick={this.deleteHandler}>Delete (not working)</button>
+        <button onClick={this.deleteHandler}>Delete (not persisting yet)</button>
       </div>
     );
   }

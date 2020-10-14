@@ -70,7 +70,7 @@ class App extends React.Component {
           <button onClick={this.toggleForm}>Show/hide new poem form</button>
           {form}
         </div>
-        <PoemsContainer poemsApi={this.state.poemsApi}/>
+        <PoemsContainer poemsApi={this.state.poemsApi} deleteFromApi={this.deleteFromApi}/>
       </div>
     );
   }
