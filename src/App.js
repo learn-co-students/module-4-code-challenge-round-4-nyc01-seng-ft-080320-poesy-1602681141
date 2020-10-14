@@ -6,7 +6,8 @@ import NewPoemForm from "./NewPoemForm";
 class App extends React.Component {
 
   state={
-    poems:[]
+    poems:[],
+    formOpen: false,
 
   }
 
@@ -25,6 +26,9 @@ class App extends React.Component {
 
   }
 
+  openForm=()=>{
+    this.setState({formOpen:true})
+  }
  addToProps = (data) =>{
    let poems = data.map(poem =>{return{...poem, read:false}})
    this.setState({poems:poems})
@@ -34,8 +38,8 @@ class App extends React.Component {
     return (
       <div className="app">
         <div className="sidebar">
-          <button>Show/hide new poem form</button>
-          {false && <NewPoemForm />}
+          <button onClick={this.openForm}>Show/hide new poem form</button>
+          {this.state.formOpen? <NewPoemForm /> : null}
         </div>
         <PoemsContainer poems={this.state.poems} clickHandler={this.clickHandler}/>
       </div>
