@@ -27,8 +27,14 @@ class App extends React.Component {
   }
 
   openForm=()=>{
+    if(this.state.formOpen===false){
     this.setState({formOpen:true})
+    }else{ 
+      this.setState({formOpen:false})
+    }
   }
+
+
  addToProps = (data) =>{
    let poems = data.map(poem =>{return{...poem, read:false}})
    this.setState({poems:poems})
