@@ -1,6 +1,12 @@
 import React from "react";
 
 class Poem extends React.Component {
+  state = {
+    clicked: true
+  }
+  clickHandler = () => {
+    console.log('clicking')
+  }
   render() {
     return (
       <div>
@@ -9,10 +15,12 @@ class Poem extends React.Component {
         <p>
           <strong>- By{this.props.poem.author}</strong>
         </p>
-        <button>Mark as read</button>
+        <button onClick={this.clickHandler}  >Mark as read </button >
       </div>
     );
   }
 }
-
+// do prevstate
+// add a callback functin clickhandler to button
+// defin
 export default Poem;
