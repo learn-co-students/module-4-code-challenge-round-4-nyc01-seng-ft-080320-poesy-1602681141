@@ -1,11 +1,13 @@
 import React from "react";
 import "./App.css";
 import PoemsContainer from "./PoemsContainer";
+import FavoriteContainer from "./FavoriteContainer";
 import NewPoemForm from "./NewPoemForm";
 
 class App extends React.Component {
   state = {
     poemList: [],
+    favoriteList: [],
     showForm: false
   }
 
@@ -29,6 +31,14 @@ class App extends React.Component {
     })
   }
 
+  addFavorite = (poemObj, boolean) => {
+    if(boolean){
+      this.setState({favoriteList: this.state.favoriteList.filter(poem => poem.title !== poemObj.title)})
+    }else{
+      this.setState({favoriteList: [...this.state.favoriteList, poemObj]})
+    }
+  }
+
   componentDidMount() {
     fetch('http://localhost:6001/poems')
     .then(resp => resp.json())
@@ -41,8 +51,10 @@ class App extends React.Component {
         <div className="sidebar">
           <button onClick={this.showForm} >Show/hide new poem form</button>
           {this.state.showForm && <NewPoemForm onSubmit={this.onSubmit} />}
+          <h3 style={{textAlign: 'center'}}>Favorite List</h3>
+          <FavoriteContainer poemList={this.state.favoriteList}/>
         </div>
-        <PoemsContainer poemList={this.state.poemList}/>
+        <PoemsContainer poemList={this.state.poemList} addFavorite={this.addFavorite}/>
       </div>
     );
   }
