@@ -11,6 +11,11 @@ class Poem extends React.Component {
     this.setState((prevState => ({ clicked: !prevState.clicked })))
   }
 
+  favoriteHandler = () => {
+    this.setState((prevState) => ({ favorited: !prevState.favorited }));
+    this.props.addToFavorites(this.props.poem) 
+  }
+
   render() {
     return (
       <div>
@@ -20,7 +25,7 @@ class Poem extends React.Component {
           <strong>- By {this.props.poem.author}</strong>
         </p>
         <button onClick={() => { this.clicked() }}>{this.state.clicked ? "Mark as Unread" : "Mark as Read"}</button>
-        {this.state.favorited ? null : <button onClick={() => { this.setState((prevState) => ({ favorited: !prevState.favorited })); this.props.addToFavorites(this.props.poem) }}>Add to Favorites </button>}
+        {this.state.favorited ? null : <button onClick={this.favoriteHandler}>Add to Favorites </button>}
         <button onClick={() => {this.props.deletePoem(this.props.poem)}}>Delete Poem</button>
       </div>
     );

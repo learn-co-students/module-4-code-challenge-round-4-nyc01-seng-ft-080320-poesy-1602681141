@@ -38,7 +38,7 @@ class App extends React.Component {
       })
     })
     .then(resp => resp.json())
-    .then( newPoem => this.setState({ poems: [...this.state.poems, newPoem ]}))
+    .then(newPoem => this.setState({ poems: [...this.state.poems, newPoem ]}))
   }
 
   addToFavorites = (poem) => {
@@ -57,8 +57,7 @@ class App extends React.Component {
         'accepts': 'application/json'
       },
     })
-      .then(resp => resp.json)
-      .then(this.componentDidMount())
+    .then(resp => this.componentDidMount())
   }
 
   render() {

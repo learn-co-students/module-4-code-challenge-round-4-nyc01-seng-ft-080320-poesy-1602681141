@@ -22,6 +22,7 @@ class NewPoemForm extends React.Component {
 
   submitPoem = () => {
     this.props.addPoem(this.state.newTitle, this.state.newAuthor, this.state.newContent)
+    this.setState({ newTitle: '', newAuthor: '', newContent: ''})
   }
 
 
