@@ -42,6 +42,20 @@ class App extends React.Component {
             })
     }
 
+    deletePoem = (poemId) => {
+        // decided to do the deletion optimistically 
+        const newArray = [...this.state.poemsList]
+        const index = newArray.findIndex(poem => poem.id === poemId)
+        newArray.splice(index, 1)
+        this.setState( { poemsList: newArray })
+
+        fetch(`http://localhost:6001/poems/${poemId}`, {method: "DELETE"})
+            .then(resp => resp.json())
+            .then(poemObj => {
+                console.log('successfully deleted poem')
+            })
+    }
+
     render() {
         return (
         <div className="app">
@@ -49,7 +63,7 @@ class App extends React.Component {
             <button onClick={this.formButtonClickHandler}>Show/hide new poem form</button>
             {this.state.formButtonClicked ? <NewPoemForm addPoemHandler={this.addPoem}/> : null}
             </div>
-            <PoemsContainer poemsList={this.state.poemsList}/>
+            <PoemsContainer poemsList={this.state.poemsList} deleteHandler={this.deletePoem}/>
         </div>
         );
     }

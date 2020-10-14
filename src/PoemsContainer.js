@@ -27,7 +27,8 @@ class PoemsContainer extends React.Component {
             return <Poem key={indx} 
                 poem={poemObj} 
                 read={this.state.readPoems.some(poem => poem.id === poemObj.id) ? true : false}
-                readHandler={this.readHandler}/>
+                readHandler={this.readHandler}
+                deleteHandler={this.props.deleteHandler}/>
         })
     }
 
