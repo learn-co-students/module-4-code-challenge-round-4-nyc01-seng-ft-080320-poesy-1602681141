@@ -11,8 +11,11 @@ class Poem extends React.Component {
   }
 
   render() {
+    let id = this.props.poem.id
     return (
-      <div>
+      <div 
+      // addToFavorites={this.props.addToFavorites(id)}
+      >
         <h3>{this.props.poem.title}</h3>
         <p>{this.props.poem.content}</p>
         <p>
