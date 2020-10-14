@@ -2,12 +2,14 @@ import React from "react";
 import "./App.css";
 import PoemsContainer from "./Containers/PoemsContainer";
 import NewPoemForm from "./Components/NewPoemForm";
+import Favorites from "./Containers/Favorites";
 
 class App extends React.Component {
 
   state={
     poemsURL: "http://localhost:3000/poems/",
     poems: [],
+    favorites: [],
     formStatus: false
   }
 
@@ -63,6 +65,29 @@ class App extends React.Component {
     })
   }
 
+  favoritePoem = (poem) => {
+    if (!this.state.favorites.find(fav => fav.id === poem.id)) {
+      this.setState(prevState => {
+        return {
+          favorites: [...prevState.favorites, poem]
+        }
+      })
+    }
+  }
+
+  unfavoritePoem = (poem) => {
+    let newFavs = [...this.state.favorites]
+    let favIndex = newFavs.findIndex(p => p.id === poem.id)
+    newFavs.splice(favIndex, 1)
+    this.setState(prevState => {
+      return {
+        favorites: newFavs
+      }
+    })
+  }
+
+
+
 
   render() {
     return (
@@ -71,7 +96,8 @@ class App extends React.Component {
           <button onClick={this.toggleForm}>Show/hide new poem form</button>
           {this.state.formStatus && <NewPoemForm addPoem={this.addPoem}/>}
         </div>
-        <PoemsContainer poems={this.state.poems} deletePoem={this.deletePoem}/>
+        <PoemsContainer poems={this.state.poems} deletePoem={this.deletePoem} favoritePoem={this.favoritePoem}/>
+        <Favorites poems={this.state.favorites} unfavoritePoem={this.unfavoritePoem}/>
       </div>
     );
   }

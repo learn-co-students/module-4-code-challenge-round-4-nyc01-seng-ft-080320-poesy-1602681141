@@ -6,6 +6,7 @@ body {
 .app {
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
 }
 
 .sidebar {
@@ -24,6 +25,10 @@ body {
 .poems-container {
   max-width: 30em;
   margin: auto;
+  padding-left: 1em;
+  padding-right: 1em;
+  border-right: solid black 1px;
+  align-self: self-start; 
 }
 
 .poems-container > div {
@@ -49,6 +54,7 @@ form.new-poem-form > textarea {
   font-size: 1em;
   font-family: sans-serif;
   margin-bottom: 0.5em;
+  width: 100%;
 }
 
 input[type="submit"],

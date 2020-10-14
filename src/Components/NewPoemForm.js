@@ -33,8 +33,7 @@ class NewPoemForm extends React.Component {
                     placeholder="Poem Title..."
                     value={this.state.title} 
                     onChange={this.changeHandler}/>
-                <input
-                    type="textarea"
+                <textarea
                     name="content"
                     placeholder="Poem Content..."
                     value={this.state.content}

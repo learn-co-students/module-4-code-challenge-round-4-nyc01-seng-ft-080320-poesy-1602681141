@@ -22,6 +22,28 @@ class Poem extends React.Component {
         this.props.deletePoem(this.props.poem)
     }
 
+    favoriteMe = () => {
+        this.props.favoritePoem(this.props.poem)
+    }
+
+    unfavoriteMe = () => {
+        this.props.unfavoritePoem(this.props.poem)
+    }
+
+    favoriteButton = () => {
+        if (!this.props.favorite) {
+            return <button onClick={this.favoriteMe}>Favorite</button>
+        } else {
+            return <button onClick={this.unfavoriteMe}>Unfavorite</button>
+        }
+    }
+
+    deleteButton = () => {
+        if (!this.props.favorite) {
+            return <button onClick={this.deleteMe}>Delete</button>
+        }
+    }
+
     render() {
         return (
             <div>
@@ -29,7 +51,8 @@ class Poem extends React.Component {
                 {this.props.poem.content}
                 <h4>By - {this.props.poem.author}</h4>
                 <button onClick={this.readPoem}>{this.buttonText()}</button>
-                <button onClick={this.deleteMe}>Delete</button>
+                {this.deleteButton()}
+                {this.favoriteButton()}
             </div>
         )
     }
