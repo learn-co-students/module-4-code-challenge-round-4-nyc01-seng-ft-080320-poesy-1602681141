@@ -28,7 +28,8 @@ class PoemsContainer extends React.Component {
                 poem={poemObj} 
                 read={this.state.readPoems.some(poem => poem.id === poemObj.id) ? true : false}
                 readHandler={this.readHandler}
-                deleteHandler={this.props.deleteHandler}/>
+                deleteHandler={this.props.deleteHandler}
+                favoriteHandler={this.props.favoriteHandler}/>
         })
     }
 

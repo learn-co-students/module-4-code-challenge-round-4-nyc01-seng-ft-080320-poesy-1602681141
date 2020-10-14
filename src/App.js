@@ -1,12 +1,12 @@
 import React from "react";
 import "./App.css";
 import PoemsContainer from "./PoemsContainer";
-import NewPoemForm from "./NewPoemForm";
+import SideBar from "./SideBar";
 
 class App extends React.Component {
     state = {
         poemsList: [],
-        formButtonClicked: false,
+        favPoems: [],
         newPoem: ''
     }
 
@@ -16,12 +16,6 @@ class App extends React.Component {
             .then(poemsApi => {
                 this.setState( { poemsList: poemsApi})
             })
-    }
-
-    formButtonClickHandler = () => {
-        this.setState(prevState => { 
-            return { formButtonClicked: !prevState.formButtonClicked } 
-        })
     }
 
     addPoem = (poemObj) => {
@@ -56,14 +50,26 @@ class App extends React.Component {
             })
     }
 
+    favoriteHandler = (poemObj) => {
+        if(this.state.favPoems.some(poem => poem.id === poemObj.id)) {
+            const newArray = [...this.state.favPoems]
+            const index = newArray.findIndex(poem => poem.id === poemObj.id)
+            newArray.splice(index, 1)
+            this.setState( { favPoems: newArray })
+        } else {
+            this.setState(prevState => {
+                return { favPoems: [...prevState.favPoems, poemObj]}
+            })
+        }
+    }
+
     render() {
         return (
         <div className="app">
-            <div className="sidebar">
-            <button onClick={this.formButtonClickHandler}>Show/hide new poem form</button>
-            {this.state.formButtonClicked ? <NewPoemForm addPoemHandler={this.addPoem}/> : null}
-            </div>
-            <PoemsContainer poemsList={this.state.poemsList} deleteHandler={this.deletePoem}/>
+            <SideBar addPoemHandler={this.addPoem} favPoems={this.state.favPoems}/>
+            <PoemsContainer poemsList={this.state.poemsList} 
+                deleteHandler={this.deletePoem}
+                favoriteHandler={this.favoriteHandler}/>
         </div>
         );
     }
