@@ -13,7 +13,10 @@ class Poem extends React.Component {
     } else {
       this.setState({read: true})
     }
-    console.log(this.state.read)
+  }
+
+  deleteHandler = () => {
+    this.props.deleteFromApi(this.poemObj)
   }
 
 
@@ -34,6 +37,7 @@ class Poem extends React.Component {
           <strong>- {this.props.poemObj.author}</strong>
         </p>
         {readButton}
+        <button onClick={this.deleteHandler}>Delete (not working)</button>
       </div>
     );
   }

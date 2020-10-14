@@ -30,10 +30,19 @@ class App extends React.Component {
     .then(response => response.json())
     .then(poem => {
       const newArray = [...this.state.poemsApi]
-      console.log(newArray)
       newArray.push(poem)
-      console.log(newArray)
       this.setState({poemsApi: newArray})
+    })
+  }
+
+  deleteFromApi = (poemObj) => {
+    const options = {
+      method: 'DELETE'
+    }
+    fetch(`http://localhost:6001/poems/${poemObj.id}`, options)
+    .then(response => response.json())
+    .then(poem => {
+      console.log(poem)
     })
   }
 
@@ -50,7 +59,7 @@ class App extends React.Component {
   render() {
     let form;
     if (this.state.formShown){
-      form = <NewPoemForm addPoem={this.addPoem}/>
+      form = <NewPoemForm addPoem={this.addPoem} />
     } else {
       form = null
     }
