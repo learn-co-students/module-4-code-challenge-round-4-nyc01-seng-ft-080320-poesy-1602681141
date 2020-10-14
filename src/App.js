@@ -5,7 +5,8 @@ import NewPoemForm from "./NewPoemForm";
 
 class App extends React.Component {
     state ={
-        api: []
+        api: [],
+        showForm: false
     }
 
     componentDidMount = () => {
@@ -15,12 +16,18 @@ class App extends React.Component {
             this.setState({api: poems})
         })
     }
+
+    showFormHandler = () => {
+        this.setState(prevState => ({showForm: !prevState.showForm}))
+    }
   render() {
+      console.log(this.state.showForm)
     return (
       <div className="app">
         <div className="sidebar">
-          <button>Show/hide new poem form</button>
-          {false && <NewPoemForm />}
+          <button onClick={this.showFormHandler}>Show/hide new poem form</button>
+          {this.state.showForm? <NewPoemForm /> : null}
+          {/* {false && <NewPoemForm />} */}
         </div>
         <PoemsContainer poems={this.state.api}/>
       </div>

@@ -9,7 +9,6 @@ class Poem extends React.Component {
         this.setState(prevState => ({read: !prevState.read}))
     }
   render() {
-      console.log(this.state)
     return (
       <div>
         <h3>{this.props.poem.title}</h3>
