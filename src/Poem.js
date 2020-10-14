@@ -25,7 +25,11 @@ class Poem extends React.Component {
         <p>
           <strong>- By {this.props.poem.author}</strong>
         </p>
-        <button onClick={this.readToggle}>Mark as {this.readIt()}</button>
+        <div className="buttons" style={{display: "flex", justifyContent: "space-between"}}>
+          <button onClick={this.readToggle}>Mark as {this.readIt()}</button>
+          <button onClick={() => this.props.theyLikeMe(this.props.poem)}>💖</button>
+          <button onClick={() => this.props.deletePoem(this.props.poem.id)}>Delete Me</button>
+        </div>
       </div>
     );
   }
