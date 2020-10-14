@@ -5,7 +5,8 @@ class NewPoemForm extends React.Component {
   state = {
     title : "",
     author : "",
-    content : ""
+    content : "",
+  
   }
   
   changeHandler = (e) => {
