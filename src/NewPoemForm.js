@@ -1,33 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 
-class NewPoemForm extends React.Component {
-  state = {
-    title: '',
-    author: '',
-    content: ''
-  }
+const NewPoemForm = props => {
+  const [formData, setFormData] = useState({title: '', author: '', content: ''});
 
-  handleChange = event => {
-    this.setState({
+  const handleChange = event => {
+    setFormData({
+      ...formData,
       [event.target.name]: event.target.value
-    })
-  }
+    });
+  };
 
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
-    this.props.appHandleSubmit(this.state)
-  }
+    props.appHandleSubmit(formData);
+    setFormData({title: '', author: '', content: ''})
+  };
 
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit} className="new-poem-form">
-        <input name="title" placeholder="Title" onChange={this.handleChange} value={this.state.title} />
-        <input name="author" placeholder="Author" onChange={this.handleChange} value={this.state.author} />
-        <textarea name="content" placeholder="Write your masterpiece here..." onChange={this.handleChange} value={this.state.content} rows={10} />
-        <input type="submit" value="Share your masterpiece" />
-      </form>
-    );
-  }
-}
+  return (
+    <form onSubmit={handleSubmit} className="new-poem-form">
+      <input name="title" placeholder="Title" onChange={handleChange} value={formData.title} />
+      <input name="author" placeholder="Author" onChange={handleChange} value={formData.author} />
+      <textarea name="content" placeholder="Write your masterpiece here..." onChange={handleChange} value={formData.content} rows={10} />
+      <input type="submit" value="Share your masterpiece" />
+    </form>
+  );
+};
 
 export default NewPoemForm;

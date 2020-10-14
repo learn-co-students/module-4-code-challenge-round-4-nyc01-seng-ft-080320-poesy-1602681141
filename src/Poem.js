@@ -1,44 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 
-class Poem extends React.Component {
-  state = {
-    read: false,
-    favorite: false
-  }
+const Poem = props => {
+  // could have also made read a prop in app, like favorites, but there's no need for the parent components to have access to that information
+  const [read, setRead] = useState(false);
 
-  handleClick = event => {
+  const handleClick = event => {
     event.persist();
-    this.setState(prevState => ({
-      [event.target.name]: !prevState[event.target.name]
-    }))
-    if (event.target.name === 'favorite') {
-      this.props.toggleFavorite(this.props.poem)
+    if (event.target.name === 'read') {
+      setRead(!read);
+    } else if (event.target.name === 'favorite') {
+      props.toggleFavorite(props.poem);
+    } else {
+      props.appHandleDelete(props.poem);
     }
   }
 
-  handleDelete = () => {
-    this.props.appHandleDelete(this.props.poem)
-  }
-
-  render() {
-    return (
-      <div>
-        <h3>{this.props.poem.title}</h3>
-        <p>{this.props.poem.content}</p>
-        <p>
-          <strong>- {this.props.poem.author}</strong>
-        </p>
-        {this.props.parentContainer === 'PoemsContainer' ? 
-        <>
-          <button name="read" onClick={this.handleClick}>{this.state.read ? 'Mark as unread' : 'Mark as read'}</button>
-          <button name="favorite" onClick={this.handleClick}>{this.state.favorite ? 'Remove from favorites' : 'Add to favorites'}</button>
-          <button onClick={this.handleDelete}>Delete Poem</button>
-        </>
-        :
-        null}
-      </div>
-    );
-  }
+  return (
+    <div>
+      <h3>{props.poem.title}</h3>
+      <p>{props.poem.content}</p>
+      <p>
+        <strong>- {props.poem.author}</strong>
+      </p>
+      {props.parentContainer === 'PoemsContainer' ? 
+      <>
+        <button name="read" onClick={handleClick}>{read ? 'Mark as unread' : 'Mark as read'}</button>
+        <button name="favorite" onClick={handleClick}>{props.favorites.find(favorite => {return favorite === props.poem}) ? 'Remove from favorites' : 'Add to favorites'}</button>
+        <button name="delete" onClick={handleClick}>Delete Poem</button>
+      </>
+      :
+      null}
+    </div>
+  );
 }
 
 export default Poem;

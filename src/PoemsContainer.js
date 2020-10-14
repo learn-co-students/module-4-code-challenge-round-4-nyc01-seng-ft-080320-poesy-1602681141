@@ -1,23 +1,28 @@
 import React from "react";
 import Poem from "./Poem";
 
-class PoemsContainer extends React.Component {
-  mapPoems = () => {
-    return this.props.poems.map(poem => { 
-      return <Poem poem={poem} key={poem.id} toggleFavorite={this.props.toggleFavorite} parentContainer="PoemsContainer" appHandleDelete={this.props.appHandleDelete} /> 
-    })
+const PoemsContainer = props => {
+  const mapPoems = () => {
+    return props.poems.map(poem => {
+      return (
+        <Poem 
+          poem={poem}
+          key={poem.id}
+          favorites={props.favorites}
+          toggleFavorite={props.toggleFavorite}
+          parentContainer="PoemsContainer" // so it knows whether to show the buttons or not
+          appHandleDelete={props.appHandleDelete}
+        />
+      );
+    });
   }
 
-  render() {
-    return (
-      <div className="poems-container">
-        <h2>All Poems</h2>
-        {
-          this.mapPoems()
-        }
-      </div>
-    );
-  }
+  return (
+    <div className="poems-container">
+      <h2>All Poems</h2>
+      {mapPoems()}
+    </div>
+  );
 }
 
 export default PoemsContainer;
