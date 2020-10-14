@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import PoemsContainer from "./PoemsContainer";
 import NewPoemForm from "./NewPoemForm";
+import FavoritesContainer from './FavoritesContainer'
 
 class App extends React.Component {
 
@@ -10,6 +11,52 @@ class App extends React.Component {
     form: {
       visible: false,
     }
+  }
+  
+  favoritePoems = () => {
+    return this.state.resp.filter(p => p.favorited)
+  }
+
+  unFav = (poem) => {
+    
+
+    fetch(`http://localhost:3000/poems/${poem.id}`, {
+      method: 'PATCH',
+      headers: {
+        accepts: 'application/json',
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({favorited: false})
+    })
+    .then( r => r.json())
+    .then(r => {
+      let newPoems = [...this.state.resp]
+      let foundPoem = newPoems.find(p => p.id === poem.id)
+      foundPoem.favorited = false;
+      this.setState({ resp: newPoems })
+    })
+    
+  }
+
+  favPoem = (poem) => {
+    
+
+    fetch(`http://localhost:3000/poems/${poem.id}`, {
+      method: 'PATCH',
+      headers: {
+        accepts: 'application/json',
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({favorited: true})
+    })
+    .then( r => r.json())
+    .then(r => {
+      let newPoems = [...this.state.resp]
+      let foundPoem = newPoems.find(p => p.id === poem.id)
+      foundPoem.favorited = true;
+      this.setState({ resp: newPoems })
+    })
+    
   }
 
   submitHandler = e => {
@@ -58,6 +105,7 @@ class App extends React.Component {
   render() {
     console.log('current render state', this.state)
     return (
+    
       <div className="app">
         <div className="sidebar">
           <button
@@ -67,6 +115,12 @@ class App extends React.Component {
         </div>
         <PoemsContainer
           poems = {this.state.resp}
+          favHandler= {this.favPoem}
+        />
+        <h2>Favorites</h2>
+        <FavoritesContainer
+          poems = {this.favoritePoems()}
+          favHandler ={this.unFav}
         />
       </div>
     );
