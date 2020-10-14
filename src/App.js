@@ -2,13 +2,15 @@ import React from "react";
 import "./App.css";
 import PoemsContainer from "./PoemsContainer";
 import NewPoemForm from "./NewPoemForm";
+import FavoriteContainer from './FavoriteContainer'
 
 const ApiUrl = 'http://localhost:3000/poems/'
 class App extends React.Component {
   state= {
     showForm: false,
     poems: [],
-    readPoems: []
+    readPoems: [],
+    favoritedPoems: [],
   }
 
   
@@ -41,6 +43,26 @@ class App extends React.Component {
     })
   }
 
+  removePoem = (poem) => {
+    let options = {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "content-type": "application/json"
+      }
+    }
+    fetch(ApiUrl + poem.id, options)
+    .then(res => res.json())
+    .then(poem => {
+      let newArr = [...this.state.poems]
+      let index = newArr.indexOf(poem)
+      newArr.splice(index, 1)
+      this.setState({
+        poems: newArr
+      })
+    })
+  }
+
   addRemoveReadPoem = poem => {
     let poemArr = [...this.state.readPoems]
     if(this.state.readPoems.includes(poem)) {
@@ -49,12 +71,21 @@ class App extends React.Component {
       this.setState({
         readPoems: poemArr
       })
-      console.log('removed')
     } 
     else {
       poemArr = [...this.state.readPoems, poem]
       this.setState({readPoems: poemArr})
-      console.log('added')
+    }
+  }
+
+  favoritePoem = (poem) => {
+    if(!this.state.favoritedPoems.includes(poem)) {
+      let poemArr = [...this.state.favoritedPoems, poem]
+      this.setState({favoritedPoems: poemArr})
+      console.log('favorited')
+    }
+    else {
+      console.log('already favorited')
     }
   }
 
@@ -64,8 +95,9 @@ class App extends React.Component {
         <div className="sidebar">
           <button onClick={() => this.setState(prevState => ({showForm: !prevState.showForm}))}>Show/hide new poem form</button>
           {this.state.showForm ? <NewPoemForm createPoem={this.addPoem}/> : false}
+          <FavoriteContainer poems={this.state.favoritedPoems}/>
         </div>
-        <PoemsContainer poems={this.state.poems} readPoems={this.state.readPoems} toggleReadPoem={this.addRemoveReadPoem}/>
+        <PoemsContainer delete={this.removePoem} poems={this.state.poems} readPoems={this.state.readPoems} toggleReadPoem={this.addRemoveReadPoem} favorite={this.favoritePoem}/>
       </div>
     );
   }
