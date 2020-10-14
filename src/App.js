@@ -6,7 +6,35 @@ import NewPoemForm from "./NewPoemForm";
 class App extends React.Component {
 
   state = {
-    formShown: true
+    formShown: true,
+    poemsApi: []
+  }
+
+  componentDidMount = () => {
+    fetch("http://localhost:6001/poems")
+    .then(response => response.json())
+    .then(poems => this.setState({ poemsApi: poems }))
+  }
+
+  addPoem = (poemObj) => {
+    console.log(poemObj)
+    const options = {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(poemObj)
+    }
+    fetch("http://localhost:6001/poems", options)
+    .then(response => response.json())
+    .then(poem => {
+      const newArray = [...this.state.poemsApi]
+      console.log(newArray)
+      newArray.push(poem)
+      console.log(newArray)
+      this.setState({poemsApi: newArray})
+    })
   }
 
 
@@ -16,14 +44,13 @@ class App extends React.Component {
     } else {
       this.setState({formShown: true})
     }
-    console.log(this.state.formShown)
   }
 
 
   render() {
     let form;
     if (this.state.formShown){
-      form = <NewPoemForm />
+      form = <NewPoemForm addPoem={this.addPoem}/>
     } else {
       form = null
     }
@@ -34,7 +61,7 @@ class App extends React.Component {
           <button onClick={this.toggleForm}>Show/hide new poem form</button>
           {form}
         </div>
-        <PoemsContainer />
+        <PoemsContainer poemsApi={this.state.poemsApi}/>
       </div>
     );
   }

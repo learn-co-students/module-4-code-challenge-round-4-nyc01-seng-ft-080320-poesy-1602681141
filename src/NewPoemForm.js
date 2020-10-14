@@ -23,11 +23,11 @@ class NewPoemForm extends React.Component {
     const author = e.target.author.value
     const content = e.target.content.value
     const newPoemObj = {
-      name: name,
-      author: author,
-      content: content
+      title: name,
+      content: content,
+      author: author
     }
-    console.log(newPoemObj)
+    this.props.addPoem(newPoemObj)
   }
 
 
