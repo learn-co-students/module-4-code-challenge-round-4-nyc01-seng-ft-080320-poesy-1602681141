@@ -28,7 +28,7 @@ class NewPoemForm extends React.Component {
   
   render() {
     const {title, author, content,} =  this.state
-    console.log(this.state)
+    
     return (
       <form className="new-poem-form">
         <input placeholder="Title"  onChange={this.handleFormChange} name='title' value={title}/>

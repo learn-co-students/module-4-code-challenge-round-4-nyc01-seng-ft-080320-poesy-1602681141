@@ -10,17 +10,20 @@ class Poem extends React.Component {
   }
 
   handleReadClick = (event) => {
-    console.log("handle read")
     this.setState({
       read: !this.state.read
     })
+  }
+
+  handleDeleteClick = (event) => {
+    this.props.deletePoem(event.target.dataset.id)
   }
   
   
 
   render() {
-    const {title, content, author} = this.props.poem
-    console.log(this.state)
+    const {id, title, content, author} = this.props.poem
+    
     return (
       <div>
         <h3>{title}</h3>
@@ -31,6 +34,9 @@ class Poem extends React.Component {
         <button onClick={this.handleReadClick}>
           {this.state.read? "Mark as unread" : "Mark as read"}
         </button>
+        <p>
+          <button onClick={this.handleDeleteClick} data-id={id}> Delete </button>
+        </p>
       </div>
     );
   }

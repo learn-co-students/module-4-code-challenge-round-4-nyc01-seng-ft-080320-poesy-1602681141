@@ -3,7 +3,7 @@ import "./App.css";
 import PoemsContainer from "./PoemsContainer";
 import NewPoemForm from "./NewPoemForm";
 
-const APIURL = "http://localhost:6001/poems"
+const APIURL = "http://localhost:6001/poems/"
 
 class App extends React.Component {
   constructor(props) {
@@ -30,14 +30,25 @@ class App extends React.Component {
     fetch(APIURL,options)
       .then(res => res.json())
       .then(update => this.updateApi(update))
-    
-    
   }
+
+  deletePoem = (poemId) => {
+    const options = {
+      method: 'DELETE',
+    }
+
+    fetch(APIURL+poemId,options)
+      .then(res => res.json())
+      .then(update => this.updateApi(update))
+  }
+  
 
   updateApi = (update) => {
     let currentApi = [...this.state.api]
-    currentApi.push(update)
 
+    if(update === {})return console.log("deleted")
+
+    currentApi.push(update)
     this.setState({api: currentApi})
   }
 
@@ -47,9 +58,9 @@ class App extends React.Component {
       <div className="app">
         <div className="sidebar">
           <button onClick={this.handleShowForm}>Show/hide new poem form</button>
-          {this.state.viewForm && <NewPoemForm createPoem={this.createPoem}/>}
+          {this.state.viewForm && <NewPoemForm createPoem={this.createPoem} />}
         </div>
-        <PoemsContainer api={this.state.api}/>
+        <PoemsContainer api={this.state.api} deletePoem={this.deletePoem}/>
       </div>
     );
   }
