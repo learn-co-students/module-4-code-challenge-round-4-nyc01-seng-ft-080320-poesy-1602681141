@@ -2,7 +2,8 @@ import React from 'react';
 
 class Poem extends React.Component {
 	state = {
-		read: false
+		read: false,
+		favorite: false
 	};
 
 	clickHandler = () => {
@@ -14,6 +15,12 @@ class Poem extends React.Component {
 	};
 	localFavHandler = () => {
 		this.props.favoriteHandler(this.props.poem);
+		this.setState((prevState) => ({ favorite: !prevState.favorite }));
+	};
+	localRemoveFavoriteHandler = () => {
+        this.props.removeFavoriteHandler(this.props.poem);
+        this.setState((prevState) => ({ favorite: !prevState.favorite }));
+        
 	};
 	renderButtons = () => {
 		if (this.props.favorite) {
@@ -23,7 +30,11 @@ class Poem extends React.Component {
 				<div>
 					<button onClick={this.clickHandler}>{this.state.read ? 'Mark as unread' : 'Mark as read'}</button>
 					<button onClick={this.localDeleteHandler}>Delete Poem</button>
-					<button onClick={this.localFavHandler}>Add To Favorites</button>
+					{this.state.favorite ? (
+						<button onClick={this.localRemoveFavoriteHandler}>Remove From Favorites</button>
+					) : (
+						<button onClick={this.localFavHandler}>Add To Favorites</button>
+					)}
 				</div>
 			);
 		}

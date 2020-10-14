@@ -42,19 +42,27 @@ class App extends React.Component {
 		};
 		fetch(`http://localhost:3000/poems/${poemId}`, options).then((resp) => resp.json()).then(() => {
 			const newArr = [ ...this.state.api ];
-			const filtered = newArr.filter((poem) => poem.id !== poemId);
-			this.setState({ api: filtered });
+			const newFaves = [ ...this.state.favorites ];
+			const filteredFaves = newFaves.filter((poem) => poem.id !== poemId);
+			const filteredApi = newArr.filter((poem) => poem.id !== poemId);
+			this.setState({ api: filteredApi, favorites: filteredFaves });
 		});
 		//send delete request
 	};
 
 	addToFavorites = (poemObj) => {
-        const found = [...this.state.favorites].find(poem => poem.id === poemObj.id)
-        if(found === undefined){
-            const newArr = [ ...this.state.favorites, poemObj ];
-            this.setState({ favorites: newArr });
-        }
-	};
+		const found = [ ...this.state.favorites ].find((poem) => poem.id === poemObj.id);
+		if (found === undefined) {
+			const newArr = [ ...this.state.favorites, poemObj ];
+			this.setState({ favorites: newArr });
+		}
+    };
+    
+    removeFromFavorites = poemObj => {
+        const newFaves = [...this.state.favorites]
+        const filtered = newFaves.filter(poem => poem.id !== poemObj.id)
+        this.setState({favorites: filtered})
+    }
 
 	render() {
 		console.log(this.state.favorites);
@@ -66,11 +74,12 @@ class App extends React.Component {
 					{/* {false && <NewPoemForm />} */}
 				</div>
 				<PoemsContainer
+					removeFavoriteHandler={this.removeFromFavorites}
 					favoriteHandler={this.addToFavorites}
 					deleteHandler={this.deletePoemHandler}
 					poems={this.state.api}
 				/>
-				<FavoritesContainer poems={this.state.favorites}/>
+				<FavoritesContainer poems={this.state.favorites} />
 			</div>
 		);
 	}
