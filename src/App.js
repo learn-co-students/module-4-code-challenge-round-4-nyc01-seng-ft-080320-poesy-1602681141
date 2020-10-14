@@ -1,7 +1,8 @@
 import React from "react";
 import "./App.css";
-import PoemsContainer from "./PoemsContainer";
-import NewPoemForm from "./NewPoemForm";
+import PoemsContainer from "./Containers/PoemsContainer";
+import NewPoemForm from "./Components/NewPoemForm";
+import Favorites from "./Containers/Favorites"
 
 const API = 'http://localhost:6001/poems/'
 
@@ -9,7 +10,8 @@ class App extends React.Component {
 
   state = {
     api: [],
-    formClicked: false
+    formClicked: false,
+    favorites: []
   }
 
   componentDidMount() {
@@ -36,20 +38,39 @@ class App extends React.Component {
       body: JSON.stringify(form)
     }).then(resp => resp.json()).then(poem => 
       this.setState(prevState => ({
-      api: [...prevState.api, poem]
+      api: [...prevState.api, poem],
     })))
   }
 
+  deletePoem = poemObj => {
+    fetch(API + poemObj.id, {
+      method: "DELETE"
+    }).then(resp => resp.json()).then( data => {
+      let newArray = this.state.api.filter(poem => poem.id !== poemObj.id)
+      this.setState({
+        api: newArray
+      })
+    })
+  }
+
+  addFavorite = poem => {
+    this.setState(prevState => ({
+      favorites: [...prevState.favorites, poem]
+    }))
+  }
+
+
 
   render() {
-
+    console.log(this.state.favorites)
     return (
       <div className="app">
         <div className="sidebar">
           <button onClick={this.formHandle}>Show/hide new poem form</button>
           {this.state.formClicked ? <NewPoemForm post={this.postPoem} /> : null}
         </div>
-        <PoemsContainer poems={this.state.api} />
+        <PoemsContainer favorite={this.addFavorite} delete={this.deletePoem} poems={this.state.api} />
+        <Favorites favorites={this.state.favorites} />
       </div>
     );
   }
