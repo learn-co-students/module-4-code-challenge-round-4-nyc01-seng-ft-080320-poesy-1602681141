@@ -116,11 +116,13 @@ class App extends React.Component {
         <PoemsContainer
           poems = {this.state.resp}
           favHandler= {this.favPoem}
+          isfav = {false}
         />
         <h2>Favorites</h2>
         <FavoritesContainer
           poems = {this.favoritePoems()}
           favHandler ={this.unFav}
+          isfav = {true}
         />
       </div>
     );

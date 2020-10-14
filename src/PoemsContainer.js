@@ -9,6 +9,7 @@ class PoemsContainer extends React.Component {
     poem = {p} 
     key = {p.id}
     favHandler = {this.props.favHandler}
+    isfav = {this.props.isfav}
     />)
   }
 

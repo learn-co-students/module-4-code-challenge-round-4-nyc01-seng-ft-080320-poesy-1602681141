@@ -24,9 +24,10 @@ class Poem extends React.Component {
         <p>
           <strong>- By {this.props.poem.author}</strong>
         </p>
-        <button
+        {!this.props.isFav === true ? (<button
           onClick ={this.toggleRead}
-        >{this.state.read ? 'Mark as unread' : 'Mark as read'} </button>
+        >{this.state.read ? 'Mark as unread' : 'Mark as read'} </button>) : (null)}
+        
       </div>
     );
   }

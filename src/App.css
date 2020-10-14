@@ -4,8 +4,8 @@ body {
 }
 
 .app {
-  display: grid;
-  grid-template-columns: auto auto auto auto;
+  display: flex;
+  flex-direction: row;
 }
 
 .sidebar {
