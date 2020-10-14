@@ -12,7 +12,9 @@ class App extends React.Component {
 	};
 
 	componentDidMount = () => {
-		fetch('http://localhost:3000/poems').then((resp) => resp.json()).then((poems) => {
+        fetch('http://localhost:3000/poems')
+        .then((resp) => resp.json())
+        .then((poems) => {
 			this.setState({ api: poems });
 		});
 	};
@@ -22,7 +24,6 @@ class App extends React.Component {
 	};
 
 	newPoemSubmitHandler = (poemObj) => {
-		//create new obj and update api in state
 		const options = {
 			method: 'POST',
 			headers: {
@@ -31,7 +32,9 @@ class App extends React.Component {
 			},
 			body: JSON.stringify(poemObj)
 		};
-		fetch('http://localhost:3000/poems', options).then((resp) => resp.json()).then((newPoem) => {
+        fetch('http://localhost:3000/poems', options)
+        .then((resp) => resp.json())
+        .then((newPoem) => {
 			const newArr = [ ...this.state.api, newPoem ];
 			this.setState({ api: newArr });
 		});
@@ -40,38 +43,39 @@ class App extends React.Component {
 		const options = {
 			method: 'DELETE'
 		};
-		fetch(`http://localhost:3000/poems/${poemId}`, options).then((resp) => resp.json()).then(() => {
+        fetch(`http://localhost:3000/poems/${poemId}`, options)
+        .then((resp) => resp.json())
+        .then(() => {
+            //must remove poem from favorites list also if deleting from DB
 			const newArr = [ ...this.state.api ];
 			const newFaves = [ ...this.state.favorites ];
 			const filteredFaves = newFaves.filter((poem) => poem.id !== poemId);
 			const filteredApi = newArr.filter((poem) => poem.id !== poemId);
 			this.setState({ api: filteredApi, favorites: filteredFaves });
 		});
-		//send delete request
 	};
 
 	addToFavorites = (poemObj) => {
-		const found = [ ...this.state.favorites ].find((poem) => poem.id === poemObj.id);
-		if (found === undefined) {
-			const newArr = [ ...this.state.favorites, poemObj ];
-			this.setState({ favorites: newArr });
-		}
-    };
-    
-    removeFromFavorites = poemObj => {
-        const newFaves = [...this.state.favorites]
-        const filtered = newFaves.filter(poem => poem.id !== poemObj.id)
-        this.setState({favorites: filtered})
-    }
+		// don't need conditional anymore now that button switches to remove like and has a diff click handler
+		// const found = [ ...this.state.favorites ].find((poem) => poem.id === poemObj.id);
+		// if (found === undefined) {
+		const newArr = [ ...this.state.favorites, poemObj ];
+		this.setState({ favorites: newArr });
+		// }
+	};
+
+	removeFromFavorites = (poemObj) => {
+		const newFaves = [ ...this.state.favorites ];
+		const filtered = newFaves.filter((poem) => poem.id !== poemObj.id);
+		this.setState({ favorites: filtered });
+	};
 
 	render() {
-		console.log(this.state.favorites);
 		return (
 			<div className="app">
 				<div className="sidebar">
 					<button onClick={this.showFormHandler}>Show/hide new poem form</button>
 					{this.state.showForm ? <NewPoemForm submitHandler={this.newPoemSubmitHandler} /> : null}
-					{/* {false && <NewPoemForm />} */}
 				</div>
 				<PoemsContainer
 					removeFavoriteHandler={this.removeFromFavorites}
