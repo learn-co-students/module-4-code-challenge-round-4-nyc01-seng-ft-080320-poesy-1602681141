@@ -54,6 +54,23 @@ class App extends React.Component {
     })
   }
 
+  handleDelete = (poemObj) => {
+    let options = {
+      method: 'DELETE'
+    }
+
+    fetch(API + poemObj.id, options)
+    .then(resp => resp.json())
+    .then(() => {
+      let poemArray = [...this.state.poems]
+      let index = poemArray.indexOf(poemObj)
+      poemArray.splice(index, 1)
+      this.setState({
+        poems: poemArray
+      })
+    })
+  }
+
   render() {
     return (
       <div className="app">
@@ -61,7 +78,7 @@ class App extends React.Component {
           <button onClick={this.renderForm}>Show/hide new poem form</button>
           {this.state.showForm ? <NewPoemForm handleSubmit={this.handleSubmit}/> : null}
         </div>
-        <PoemsContainer poems={this.state.poems}/>
+        <PoemsContainer poems={this.state.poems} handleDelete={this.handleDelete}/>
       </div>
     );
   }
