@@ -39,6 +39,21 @@ class App extends React.Component {
     }
   }
 
+  deletePoem = (poemObj) => {
+    const options = {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+        "accept": "application/json"
+      }
+    }
+    fetch(`http://localhost:6001/poems/${poemObj.id}`, options)
+    .then(resp => resp.json())
+    .then(data => {
+      this.setState({poemList: this.state.poemList.filter(poem => poem.id !== poemObj.id)})
+    })
+  }
+
   componentDidMount() {
     fetch('http://localhost:6001/poems')
     .then(resp => resp.json())
@@ -54,7 +69,7 @@ class App extends React.Component {
           <h3 style={{textAlign: 'center'}}>Favorite List</h3>
           <FavoriteContainer poemList={this.state.favoriteList}/>
         </div>
-        <PoemsContainer poemList={this.state.poemList} addFavorite={this.addFavorite}/>
+        <PoemsContainer poemList={this.state.poemList} addFavorite={this.addFavorite} deletePoem={this.deletePoem}/>
       </div>
     );
   }
